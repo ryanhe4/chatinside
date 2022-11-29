@@ -5,6 +5,7 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
     "@fastify/swagger": "^7.4.1",
     "@prisma/client": "^4.6.1",
     "bcrypt": "^5.1.0",
