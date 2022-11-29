@@ -1,4 +1,4 @@
-import fastify, { FastifyPluginAsync } from 'fastify'
+import { FastifyPluginAsync } from 'fastify'
 import api from './api/index.js'
 
 const routes: FastifyPluginAsync = async (fastify) => {

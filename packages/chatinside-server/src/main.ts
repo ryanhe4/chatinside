@@ -1,6 +1,7 @@
 import Fastify from 'fastify'
 import fastifySwagger from '@fastify/swagger'
 import routes from './routes/index.js'
+import { authPlugin } from './plugins/authPlugin.js'
 import { swaggerConfig } from './config/swagger.js'
 import AppError from './lib/AppError.js'
 import 'dotenv/config'
@@ -23,6 +24,7 @@ server.setErrorHandler(async (error, request, reply) => {
   return error
 })
 
+server.register(authPlugin)
 server.register(routes)
 
 server.listen({ port: 4000 })
