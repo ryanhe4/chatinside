@@ -3,7 +3,7 @@ import fastifySwagger from '@fastify/swagger'
 import routes from './routes/index.js'
 import { swaggerConfig } from './config/swagger.js'
 import AppError from './lib/AppError.js'
-import db from './lib/db.js'
+import 'dotenv/config'
 
 const server = Fastify({
   logger: true,
@@ -20,7 +20,6 @@ server.setErrorHandler(async (error, request, reply) => {
       statusCode: error.statusCode,
     }
   }
-  console.log({ name: error.name })
   return error
 })
 

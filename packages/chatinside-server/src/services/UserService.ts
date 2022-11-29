@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import AppError from '../lib/AppError.js'
 import db from '../lib/db.js'
+import { generateToken } from '../lib/tokens.js'
 
 const SALT_ROUNDS = 10
 
@@ -17,7 +18,25 @@ class UserService {
     }
     return UserService.instance
   }
-
+  async generateTokens(userId: number, username: string) {
+    const [accessToken, refreshToken] = await Promise.all([
+      generateToken({
+        type: 'access_token',
+        userId,
+        tokenId: 1,
+        username: username,
+      }),
+      generateToken({
+        type: 'refresh_token',
+        tokenId: 1,
+        rotationCounter: 1,
+      }),
+    ])
+    return {
+      refreshToken,
+      accessToken,
+    }
+  }
   async register({ username, password }: AuthParams) {
     const exists = await db.user.findUnique({
       where: {
@@ -35,8 +54,8 @@ class UserService {
         passwordHash: hash,
       },
     })
-
-    return user
+    const tokens = await this.generateTokens(user.id, username)
+    return { tokens, user }
   }
 
   login() {
