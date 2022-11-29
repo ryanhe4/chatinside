@@ -1,4 +1,4 @@
-import jwt, { SignOptions } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'DevSecretKey'
 const tokensDuration = {
@@ -28,9 +28,9 @@ export function generateToken(payload: TokenPayload) {
 }
 
 export function validateToken<T>(token: string) {
-  return new Promise<DecodedToken<T>>((resolve, reject)=> {
-    jwt.verify(token, JWT_SECRET, (err, decoded)=> {
-      if(err) {
+  return new Promise<DecodedToken<T>>((resolve, reject) => {
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
         reject(err)
       }
       resolve(decoded as DecodedToken<T>)

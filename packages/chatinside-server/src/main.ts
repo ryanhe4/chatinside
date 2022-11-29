@@ -13,12 +13,13 @@ const server = Fastify({
 await server.register(fastifySwagger, swaggerConfig)
 
 server.setErrorHandler(async (error, request, reply) => {
-  reply.statusCode == error.statusCode ?? 500
+  reply.statusCode = error.statusCode ?? 500
   if (error instanceof AppError) {
     return {
       name: error.name,
       message: error.message,
       statusCode: error.statusCode,
+      payload: error.payload,
     }
   }
   return error

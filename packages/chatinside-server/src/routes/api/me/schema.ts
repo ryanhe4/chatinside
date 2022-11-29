@@ -5,10 +5,23 @@ import { createAppErrorSchema } from '../../../lib/AppError.js'
 export const getMeSchema: FastifySchema = {
   response: {
     200: userSchema,
-    201: createAppErrorSchema({
-      name: 'UnauthorizedError',
-      message: 'Unauthorized',
-      statusCode: 401,
-    }),
+    401: createAppErrorSchema(
+      {
+        name: 'UnauthorizedError',
+        message: 'Unauthorized',
+        statusCode: 401,
+        payload: {
+          isExpiredToken: true,
+        },
+      },
+      {
+        type: 'object',
+        properties: {
+          isExpiredToken: {
+            type: 'boolean',
+          },
+        },
+      },
+    ),
   },
 }
