@@ -29,7 +29,9 @@ export default class AppError extends Error {
     this.statusCode = info.statusCode
   }
 }
-
+export function isAppError(error: unknown): error is AppError {
+  return error instanceof AppError
+}
 export const appErrorSchema = {
   type: 'object',
   properties: {
