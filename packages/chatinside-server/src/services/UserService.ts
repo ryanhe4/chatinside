@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { User } from '@prisma/client'
+import { User, Token } from '@prisma/client'
 import { RefreshTokenPayload, validateToken } from '../lib/tokens.js'
 import AppError, { isAppError } from '../lib/AppError.js'
 import db from '../lib/db.js'
@@ -21,18 +21,19 @@ class UserService {
     return UserService.instance
   }
 
-  async createTokenId(userId: number) {
+  async createTokenItem(userId: number) {
     const token = await db.token.create({
       data: {
         userId,
       },
     })
-    return token.id
+    return token
   }
 
-  async generateTokens(user: User, existingTokenId?: number) {
+  async generateTokens(user: User, toeknItem?: Token) {
     const { id: userId, username } = user
-    const tokenId = existingTokenId ?? (await this.createTokenId(userId))
+    const token = toeknItem ?? (await this.createTokenItem(userId))
+    const tokenId = token.id
 
     const [accessToken, refreshToken] = await Promise.all([
       generateToken({
@@ -44,7 +45,7 @@ class UserService {
       generateToken({
         type: 'refresh_token',
         tokenId,
-        rotationCounter: 1,
+        rotationCounter: token.rotationCounter,
       }),
     ])
     return {
@@ -99,7 +100,8 @@ class UserService {
   }
   async refreshToken(token: string) {
     try {
-      const { tokenId } = await validateToken<RefreshTokenPayload>(token)
+      const { tokenId, rotationCounter } =
+        await validateToken<RefreshTokenPayload>(token)
       const tokenItem = await db.token.findUnique({
         where: {
           id: tokenId,
@@ -111,7 +113,30 @@ class UserService {
       if (!tokenItem) {
         throw new Error('Toekn not found')
       }
-      return this.generateTokens(tokenItem.user, tokenId)
+      if (tokenItem.blocked) {
+        throw new Error('Token is blocked')
+      }
+      if (tokenItem.rotationCounter !== rotationCounter) {
+        await db.token.update({
+          where: {
+            id: tokenId,
+          },
+          data: {
+            blocked: true,
+          },
+        })
+        throw new Error('Rotation counter does not match')
+      }
+      tokenItem.rotationCounter += 1
+      await db.token.update({
+        where: {
+          id: tokenId,
+        },
+        data: {
+          rotationCounter: tokenItem.rotationCounter,
+        },
+      })
+      return this.generateTokens(tokenItem.user, tokenItem)
     } catch (e) {
       throw new AppError('RefreshTokenError')
     }
