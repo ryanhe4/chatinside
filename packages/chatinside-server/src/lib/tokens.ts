@@ -32,8 +32,8 @@ export function validateToken<T>(token: string) {
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) {
         reject(err)
+        resolve(decoded as DecodedToken<T>)
       }
-      resolve(decoded as DecodedToken<T>)
     })
   })
 }
