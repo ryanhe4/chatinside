@@ -1,13 +1,12 @@
 import styled from '@emotion/styled'
 import { colors } from 'lib/colors'
-import { Vercel } from './vectors'
 
-export default function Header() {
-  return (
-    <Block>
-      <Vercel />
-    </Block>
-  )
+interface Props {
+  title?: React.ReactNode
+}
+
+export default function Header({ title }: Props) {
+  return <Block>{title}</Block>
 }
 
 const Block = styled.header`
@@ -18,8 +17,4 @@ const Block = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-  svg {
-    width: 84px;
-    height: 17px;
-  }
 `
