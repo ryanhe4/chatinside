@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
 import fp from 'fastify-plugin'
-import AppError from '../lib/AppError.js'
+import AppError from '../lib/AppError'
 
 const requireAuthPluginAsync: FastifyPluginAsync = async (fastify) => {
   fastify.addHook('preHandler', async (request, reply) => {

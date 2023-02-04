@@ -1,6 +1,6 @@
 import { FastifySchema } from 'fastify/types/schema'
-import { userSchema } from './../../../schema/userSchema.js'
-import { createAppErrorSchema } from '../../../lib/AppError.js'
+import { userSchema } from './../../../schema/userSchema'
+import { createAppErrorSchema } from '../../../lib/AppError'
 
 export const getMeSchema: FastifySchema = {
   response: {

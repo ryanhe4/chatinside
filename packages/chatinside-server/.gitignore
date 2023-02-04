@@ -1,7 +1,10 @@
 
 node_modules
-dist
 .vscode
-dev.db
-dev.db*
+dist
+
 .env
+.env.*
+
+docker/postgresql/docker/*
+prisma/migrations/*

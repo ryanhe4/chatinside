@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
 import { User, Token } from '@prisma/client'
-import { RefreshTokenPayload, validateToken } from '../lib/tokens.js'
-import AppError, { isAppError } from '../lib/AppError.js'
-import db from '../lib/db.js'
-import { generateToken } from '../lib/tokens.js'
+import { RefreshTokenPayload, validateToken } from '../lib/tokens'
+import AppError, { isAppError } from '../lib/AppError'
+import db from '../database/client'
+import { generateToken } from '../lib/tokens'
 
 const SALT_ROUNDS = 10
 
