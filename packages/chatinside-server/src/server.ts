@@ -3,7 +3,7 @@ import fastifySwagger from '@fastify/swagger'
 import fastifyCookie from '@fastify/cookie'
 import routes from './routes/index'
 import { authPlugin } from './plugins/authPlugin'
-import { swaggerConfig } from './config/swagger'
+import { swaggerConfig } from './lib/swagger'
 import AppError from './lib/AppError'
 import 'dotenv/config'
 
