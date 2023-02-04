@@ -24,3 +24,9 @@ CREATE USER chatinside WITH ENCRYPTED PASSWORD 'chatinside';
 GRANT ALL PRIVILEGES ON DATABASE chatinside to chatinside;
 ALTER USER chatinside CREATEDB;
 ```
+
+## etc. User LOGIN
+
+```bash
+psql -U username -d database
+```
