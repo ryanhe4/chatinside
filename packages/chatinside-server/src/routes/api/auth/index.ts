@@ -2,7 +2,11 @@ import { FastifyPluginAsync, FastifyReply } from 'fastify'
 import AppError from '../../../lib/AppError'
 import db from '../../../database/client'
 import UserService from '../../../services/UserService'
-import { loginSchema, refreshTokenSchema, registerSchema } from './schema'
+import {
+  loginSchema,
+  refreshTokenSchema,
+  registerSchema,
+} from '../schema/authSchema'
 import { AuthBody } from './types'
 
 const authRoute: FastifyPluginAsync = async (fastify) => {

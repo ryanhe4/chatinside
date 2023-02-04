@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node --transpileOnly ./src/main.ts | pino-pretty",
+    "start:dev": "nodemon --watch ./src --exec \"yarn start\" -e ts",
+    "test": "dotenv -e .env.test -- jest --watchAll",
+    "migrate:test": "dotenv -e .env.test -- yarn prisma migrate dev --name postgres-init",
+    "migrate:dev": "dotenv -e .env.development -- yarn prisma migrate dev --name postgres-init"
+  },
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
     "@fastify/swagger": "^7.4.1",
@@ -12,13 +19,6 @@
     "fastify": "^4.10.2",
     "jsonwebtoken": "^8.5.1",
     "prisma": "^4.6.1"
-  },
-  "scripts": {
-    "start": "ts-node --transpileOnly ./src/main.ts | pino-pretty",
-    "start:dev": "nodemon --watch ./src --exec \"yarn start\" -e ts",
-    "test": "dotenv -e .env.test -- jest --watchAll",
-    "migrate:test": "dotenv -e .env.test -- yarn prisma migrate dev --name postgres-init",
-    "migrate:dev": "dotenv -e .env.development -- yarn prisma migrate dev --name postgres-init"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
