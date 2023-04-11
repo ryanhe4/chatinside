@@ -8,3 +8,5 @@ dist
 
 docker/postgresql/docker/*
 prisma/migrations/*
+
+.idea

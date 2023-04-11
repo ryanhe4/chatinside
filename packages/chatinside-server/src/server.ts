@@ -16,6 +16,7 @@ export class Server {
   async build() {
     await this.fastify.register(fastifySwagger, swaggerConfig)
     this.fastify.register(fastifyCookie)
+
     this.fastify.setErrorHandler(async (error, request, reply) => {
       reply.statusCode = error.statusCode ?? 500
       if (error instanceof AppError) {
@@ -29,7 +30,7 @@ export class Server {
       return error
     })
 
-    this.fastify.register(authPlugin)
+    // this.fastify.register(authPlugin)
     this.fastify.register(routes)
   }
 

@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node --transpileOnly ./src/main.ts | pino-pretty",
-    "start:dev": "nodemon --watch ./src --exec \"yarn start\" -e ts",
+    "start:dev": "nodemon --watch ./src --exec \"dotenv -e .env.development -- yarn start\" -e ts",
     "test": "dotenv -e .env.test -- jest --watchAll",
     "migrate:test": "dotenv -e .env.test -- yarn prisma migrate dev --name postgres-init",
     "migrate:dev": "dotenv -e .env.development -- yarn prisma migrate dev --name postgres-init"
@@ -17,7 +17,7 @@
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "fastify": "^4.10.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "9.0.0",
     "prisma": "^4.6.1"
   },
   "devDependencies": {
