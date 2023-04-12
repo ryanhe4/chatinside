@@ -13,14 +13,6 @@ interface AuthParams {
 }
 
 class UserService {
-  private static instance: UserService
-  public static getInstance() {
-    if (!UserService.instance) {
-      UserService.instance = new UserService()
-    }
-    return UserService.instance
-  }
-
   async createTokenItem(userId: number) {
     const token = await db.token.create({
       data: {
@@ -100,8 +92,7 @@ class UserService {
   }
   async refreshToken(token: string) {
     try {
-      const { tokenId, rotationCounter } =
-        await validateToken<RefreshTokenPayload>(token)
+      const { tokenId, rotationCounter } = await validateToken<RefreshTokenPayload>(token)
       const tokenItem = await db.token.findUnique({
         where: {
           id: tokenId,
@@ -111,7 +102,7 @@ class UserService {
         },
       })
       if (!tokenItem) {
-        throw new Error('Toekn not found')
+        throw new Error('Token not found')
       }
       if (tokenItem.blocked) {
         throw new Error('Token is blocked')
@@ -143,4 +134,5 @@ class UserService {
   }
 }
 
-export default UserService
+const userService = new UserService()
+export default userService

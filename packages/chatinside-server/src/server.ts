@@ -1,4 +1,4 @@
-import Fastify, { FastifyInstance } from 'fastify'
+import Fastify, { fastify, FastifyInstance } from 'fastify'
 import fastifySwagger from '@fastify/swagger'
 import fastifyCookie from '@fastify/cookie'
 import routes from './routes/index'
@@ -8,6 +8,7 @@ import AppError from './lib/AppError'
 import 'dotenv/config'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import cors from '@fastify/cors'
+import { Type } from '@sinclair/typebox'
 
 export class Server {
   private fastify: FastifyInstance
@@ -21,7 +22,6 @@ export class Server {
       allowedHeaders: ['Cookie', 'Content-Type'],
       credentials: true,
     })
-
     await this.fastify.register(fastifySwagger, swaggerConfig)
     this.fastify.register(fastifyCookie)
 

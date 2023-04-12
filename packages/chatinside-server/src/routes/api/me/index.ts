@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { getMeSchema } from '../schema/meSchema'
+import { getMeSchema } from './schema'
 import AppError from '../../../lib/AppError'
 import requireAuthPlugin from '../../../plugins/requireAuthPlugin'
 

@@ -5,6 +5,9 @@ type ErrorName =
   | 'UnauthorizedError'
   | 'BadRequestError'
   | 'RefreshTokenError'
+  | 'NotFoundError'
+  | 'ForbiddenError'
+  | 'InvalidURLError'
 
 type ErrorInfo = {
   statusCode: number
@@ -20,6 +23,9 @@ interface ErrorPayloads {
   }
   BadRequestError: undefined
   RefreshTokenError: undefined
+  NotFoundError: undefined
+  ForbiddenError: undefined
+  InvalidURLError: undefined
 }
 
 const statusCodeMap: Record<ErrorName, ErrorInfo> = {
@@ -32,7 +38,7 @@ const statusCodeMap: Record<ErrorName, ErrorInfo> = {
     statusCode: 401,
   },
   UnknownError: {
-    message: 'Unknown Error',
+    message: 'Unknown error',
     statusCode: 500,
   },
   UnauthorizedError: {
@@ -47,15 +53,24 @@ const statusCodeMap: Record<ErrorName, ErrorInfo> = {
     message: 'Failed to refresh token',
     statusCode: 401,
   },
+  NotFoundError: {
+    message: 'Not Found',
+    statusCode: 404,
+  },
+  ForbiddenError: {
+    message: 'Forbidden',
+    statusCode: 403,
+  },
+  InvalidURLError: {
+    message: 'Invalid URL',
+    statusCode: 422,
+  },
 }
 
 export default class AppError extends Error {
   public statusCode: number
 
-  constructor(
-    public name: ErrorName,
-    public payload?: ErrorPayloads[ErrorName],
-  ) {
+  constructor(public name: ErrorName, public payload?: ErrorPayloads[ErrorName]) {
     const info = statusCodeMap[name]
     super(info.message)
     this.statusCode = info.statusCode

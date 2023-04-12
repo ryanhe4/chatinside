@@ -1,24 +1,21 @@
 import { FastifyPluginAsync, FastifyReply } from 'fastify'
 import AppError from '../../../lib/AppError'
-import UserService from '../../../services/UserService'
-import { AuthBodyType, loginSchema, refreshTokenSchema, registerSchema } from '../schema/authSchema'
-import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
+import userService from '../../../services/UserService'
+import { AuthRoute, AuthRouteSchema } from './schema'
 
-const authRoute: FastifyPluginAsyncTypebox = async (fastify) => {
-  const userService = UserService.getInstance()
-
-  fastify.post<{ Body: AuthBodyType }>('/login', { schema: loginSchema }, async (request, reply) => {
+const authRoute: FastifyPluginAsync = async (fastify) => {
+  fastify.post<AuthRoute['Login']>('/login', { schema: AuthRouteSchema.Login }, async (request, reply) => {
     const authResult = await userService.login(request.body)
     setTokenCookie(reply, authResult.tokens)
     return authResult
   })
 
-  fastify.post<{ Body: AuthBodyType }>('/register', { schema: registerSchema }, async (request) => {
+  fastify.post<AuthRoute['Register']>('/register', { schema: AuthRouteSchema.Register }, async (request) => {
     return userService.register(request.body)
   })
-  fastify.post<{ Body: { refreshToken?: string } }>(
+  fastify.post<AuthRoute['RefreshToken']>(
     '/refresh',
-    { schema: refreshTokenSchema },
+    { schema: AuthRouteSchema.RefreshToken },
     async (request, reply) => {
       const refreshToken = request.body.refreshToken ?? request.cookies.refresh_token ?? ''
       if (!refreshToken) {
