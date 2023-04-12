@@ -1,6 +1,13 @@
-import styled from '@emotion/styled'
-import Header from 'components/Header/Header'
+import styled from '@emotion/styled';
+import Layout from 'components/Layout/Layout';
+import PostContainer from 'components/Post/PostContainer';
 
 export default function Home() {
-  return <Header />
+  return (
+    <>
+      <Layout>
+        <PostContainer />
+      </Layout>
+    </>
+  );
 }

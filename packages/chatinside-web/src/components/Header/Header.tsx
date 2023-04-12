@@ -1,12 +1,12 @@
-import styled from '@emotion/styled'
-import { colors } from 'lib/colors'
+import styled from '@emotion/styled';
+import { colors } from 'lib/colors';
 
 interface Props {
-  title?: React.ReactNode
+  title?: React.ReactNode;
 }
 
 export default function Header({ title }: Props) {
-  return <Block>{title}</Block>
+  return <Block>{title}</Block>;
 }
 
 const Block = styled.header`
@@ -17,4 +17,7 @@ const Block = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+  font-size: 24px;
+  font-weight: 400;
+  font-family: 'Passion One', cursive;
+`;
