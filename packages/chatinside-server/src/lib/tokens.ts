@@ -12,18 +12,13 @@ if (process.env.JWT_SECRET === undefined) {
 
 export function generateToken(payload: TokenPayload) {
   return new Promise<string>((resolve, reject) => {
-    jwt.sign(
-      payload,
-      JWT_SECRET,
-      { expiresIn: tokensDuration[payload.type] },
-      (err, token) => {
-        if (err || !token) {
-          reject(err)
-          return
-        }
-        resolve(token)
-      },
-    )
+    jwt.sign(payload, JWT_SECRET, { expiresIn: tokensDuration[payload.type] }, (err, token) => {
+      if (err || !token) {
+        reject(err)
+        return
+      }
+      resolve(token)
+    })
   })
 }
 
@@ -32,8 +27,8 @@ export function validateToken<T>(token: string) {
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) {
         reject(err)
-        resolve(decoded as DecodedToken<T>)
       }
+      resolve(decoded as DecodedToken<T>)
     })
   })
 }

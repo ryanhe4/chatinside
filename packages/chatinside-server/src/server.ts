@@ -6,14 +6,22 @@ import { authPlugin } from './plugins/authPlugin'
 import { swaggerConfig } from './lib/swagger'
 import AppError from './lib/AppError'
 import 'dotenv/config'
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import cors from '@fastify/cors'
 
 export class Server {
   private fastify: FastifyInstance
 
   constructor() {
-    this.fastify = Fastify({ logger: true })
+    this.fastify = Fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>()
   }
   async build() {
+    this.fastify.register(cors, {
+      origin: /localhost/,
+      allowedHeaders: ['Cookie', 'Content-Type'],
+      credentials: true,
+    })
+
     await this.fastify.register(fastifySwagger, swaggerConfig)
     this.fastify.register(fastifyCookie)
 
@@ -27,10 +35,19 @@ export class Server {
           payload: error.payload,
         }
       }
+
+      if (error.statusCode === 400) {
+        return {
+          name: 'BadRequest',
+          message: error.message,
+          statusCode: 400,
+        }
+      }
+
       return error
     })
 
-    // this.fastify.register(authPlugin)
+    this.fastify.register(authPlugin)
     this.fastify.register(routes)
   }
 

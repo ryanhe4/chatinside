@@ -1,6 +1,14 @@
 import { FastifySchema } from 'fastify/types/schema'
 import { userSchema } from './userSchema'
 import { appErrorSchema, createAppErrorSchema } from '../../../lib/AppError'
+import { Static, Type } from '@sinclair/typebox'
+
+export const AuthBody = Type.Object({
+  username: Type.String(),
+  password: Type.String(),
+})
+
+export type AuthBodyType = Static<typeof AuthBody>
 
 const authResultSchema = {
   type: 'object',
@@ -16,17 +24,10 @@ const authResultSchema = {
   },
 }
 
-const authBodySchema = {
-  type: 'object',
-  properties: {
-    username: { type: 'string' },
-    password: { type: 'string' },
-  },
-  required: ['username', 'password'],
-}
+export const AuthResult = Type.Object({})
 
 export const registerSchema: FastifySchema = {
-  body: authBodySchema,
+  body: AuthBody,
   response: {
     200: authResultSchema,
     409: createAppErrorSchema({
@@ -38,7 +39,7 @@ export const registerSchema: FastifySchema = {
 }
 
 export const loginSchema: FastifySchema = {
-  body: authBodySchema,
+  body: AuthBody,
   response: {
     200: authResultSchema,
     401: createAppErrorSchema({
