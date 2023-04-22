@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
 import { User, Token } from '@prisma/client'
-import { RefreshTokenPayload, validateToken } from '../lib/tokens'
-import AppError, { isAppError } from '../lib/AppError'
-import db from '../database/client'
-import { generateToken } from '../lib/tokens'
+import { RefreshTokenPayload, validateToken } from '../lib/tokens.js'
+import AppError, { isAppError } from '../lib/AppError.js'
+import db from '../database/client.js'
+import { generateToken } from '../lib/tokens.js'
 
 const SALT_ROUNDS = 10
 
@@ -22,9 +22,9 @@ class UserService {
     return token
   }
 
-  async generateTokens(user: User, toeknItem?: Token) {
+  async generateTokens(user: User, tokenItem?: Token) {
     const { id: userId, username } = user
-    const token = toeknItem ?? (await this.createTokenItem(userId))
+    const token = tokenItem ?? (await this.createTokenItem(userId))
     const tokenId = token.id
 
     const [accessToken, refreshToken] = await Promise.all([

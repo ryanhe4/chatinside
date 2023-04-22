@@ -1,4 +1,4 @@
-import db from "../database/client";
+import db from '../database/client.js'
 
 class PostService {
   private static instance: PostService
@@ -14,15 +14,15 @@ class PostService {
     return result
   }
 
-  async create(username:string, password:string, contents:string, title:string) {
+  async create(username: string, password: string, contents: string, title: string) {
     return 'create'
   }
 
-  async update(id:number, username:string, password:string, contents:string, title:string) {
+  async update(id: number, username: string, password: string, contents: string, title: string) {
     return 'update'
   }
 
-  async delete(id: number, username:string, password:string, contents:string, title:string) {
+  async delete(id: number, username: string, password: string, contents: string, title: string) {
     return 'delete'
   }
 }

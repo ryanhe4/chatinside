@@ -1,10 +1,10 @@
 import { FastifyPluginAsync } from 'fastify'
 import fp from 'fastify-plugin'
-import AppError from '../lib/AppError'
-import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox'
+import AppError from '../lib/AppError.js'
+import { FastifyPluginAsyncTypebox } from '../lib/types'
 
 const requireAuthPluginAsync: FastifyPluginAsync = async (fastify) => {
-  fastify.addHook('preHandler', async (request, reply) => {
+  fastify.addHook('preHandler', async (request) => {
     if (request.isExpiredToken) {
       throw new AppError('UnauthorizedError', {
         isExpiredToken: true,

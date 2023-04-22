@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import PostService from '../../../services/PostService'
+import PostService from '../../../services/PostService.js'
 
 export const postRoute: FastifyPluginAsync = async (fastify) => {
   fastify.get('/', async (request) => {

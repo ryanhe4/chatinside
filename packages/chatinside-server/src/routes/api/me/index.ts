@@ -1,7 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
-import { getMeSchema } from './schema'
-import AppError from '../../../lib/AppError'
-import requireAuthPlugin from '../../../plugins/requireAuthPlugin'
+import { getMeSchema } from './schema.js'
+import requireAuthPlugin from '../../../plugins/requireAuthPlugin.js'
 
 export const meRoute: FastifyPluginAsync = async (fastify) => {
   fastify.register(requireAuthPlugin)

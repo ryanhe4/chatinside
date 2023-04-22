@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
 import { meRoute } from './me'
-import authRoute from './auth/index'
+import authRoute from './auth/index.js'
 import { postRoute } from './post'
 
 const api: FastifyPluginAsync = async (fastify) => {

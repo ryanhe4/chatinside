@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "start": "ts-node --transpileOnly ./src/main.ts | pino-pretty",
+    "start": "ts-node-esm --transpileOnly ./src/main.ts | pino-pretty",
     "start:dev": "nodemon --watch ./src --exec \"dotenv -e .env.development -- yarn start\" -e ts",
     "test": "dotenv -e .env.test -- jest --watchAll",
     "migrate:test": "dotenv -e .env.test -- yarn prisma migrate dev --name postgres-init",
