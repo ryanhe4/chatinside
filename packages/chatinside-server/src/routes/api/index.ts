@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
-import { meRoute } from './me'
+import { meRoute } from './me/index.js'
 import authRoute from './auth/index.js'
-import { postRoute } from './post'
+import { postRoute } from './post/index.js'
 
 const api: FastifyPluginAsync = async (fastify) => {
   fastify.register(authRoute, { prefix: '/auth' })

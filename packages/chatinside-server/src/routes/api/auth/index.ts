@@ -1,11 +1,11 @@
 import { FastifyReply } from 'fastify'
 import AppError from '../../../lib/AppError.js'
 import userService from '../../../services/UserService.js'
-import { AuthRoute, AuthRouteSchema, loginSchema } from './schema.js'
+import { AuthRoute, AuthRouteSchema } from './schema.js'
 import { FastifyPluginAsyncTypebox } from '../../../lib/types'
 
 const authRoute: FastifyPluginAsyncTypebox = async (fastify) => {
-  fastify.post<AuthRoute['Login']>('/login', { schema: loginSchema }, async (request, reply) => {
+  fastify.post<AuthRoute['Login']>('/login', { schema: AuthRouteSchema.Login }, async (request, reply) => {
     const authResult = await userService.login(request.body)
     setTokenCookie(reply, authResult.tokens)
     return authResult

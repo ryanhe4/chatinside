@@ -1,6 +1,6 @@
 import { createAppErrorSchema } from '../../../lib/AppError.js'
-import { Static, Type } from '@sinclair/typebox'
-import { createRouteSchema, routeSchema, RoutesType } from '../../../lib/routeSchema.js'
+import { Type } from '@sinclair/typebox'
+import { createRouteSchema, RoutesType } from '../../../lib/routeSchema.js'
 
 export const AuthBody = Type.Object({
   username: Type.String(),
@@ -17,8 +17,6 @@ UserSchema.example = {
   username: 'heechanyang',
 }
 
-export type UserSchemaType = Static<typeof UserSchema>
-
 const TokensSchema = Type.Object({
   accessToken: Type.String(),
   refreshToken: Type.String(),
@@ -27,15 +25,6 @@ const TokensSchema = Type.Object({
 const AuthResult = Type.Object({
   tokens: TokensSchema,
   user: UserSchema,
-})
-
-export const loginSchema = routeSchema({
-  tags: ['auth'],
-  body: AuthBody,
-  response: {
-    200: AuthResult,
-    401: createAppErrorSchema('WrongCredentials'),
-  },
 })
 
 export const AuthRouteSchema = createRouteSchema({
